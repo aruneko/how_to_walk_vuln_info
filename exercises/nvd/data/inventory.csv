@@ -1,0 +1,10 @@
+software,vendor,version,notes
+Windows 11 Pro,Microsoft,24H2,
+Google Chrome,Google,152.0.7920.104,普段使いのブラウザ。自動更新は再起動待ちで止まっている
+Adobe Acrobat Reader (Continuous),Adobe,26.001.21529,論文の PDF を読むのに使用
+Zoom Workplace for Windows,Zoom Communications,6.6.12,オンラインゼミで使用
+7-Zip,Igor Pavlov,24.09,配布資料の展開に使用
+VLC media player,VideoLAN,3.0.21,講義動画の再生に使用
+PuTTY,Simon Tatham,0.83,研究室サーバーへの SSH 接続に使用
+Visual Studio Code,Microsoft,1.104.2,プログラミング課題に使用
+Python,Python Software Foundation,3.13.7,プログラミング課題に使用

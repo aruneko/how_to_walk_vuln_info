@@ -1,0 +1,21 @@
+# 研究室の古いファイルサーバー old01 の情報（2026年10月20日 10:00 に取得）
+
+$ lsb_release -a
+No LSB modules are available.
+Distributor ID:	Ubuntu
+Description:	Ubuntu 20.04.6 LTS
+Release:	20.04
+Codename:	focal
+
+$ pro status
+SERVICE          AVAILABLE  DESCRIPTION
+esm-apps         yes        Expanded Security Maintenance for Applications
+esm-infra        yes        Expanded Security Maintenance for Infrastructure
+livepatch        yes        Canonical Livepatch service
+
+This machine is not attached to an Ubuntu Pro subscription.
+See https://ubuntu.com/pro
+
+$ dpkg -l | grep -E 'libssl|openssl'
+ii  libssl1.1:amd64                 1.1.1f-1ubuntu2.24      amd64   Secure Sockets Layer toolkit - shared libraries
+ii  openssl                         1.1.1f-1ubuntu2.24      amd64   Secure Sockets Layer toolkit - cryptographic utility

@@ -1,0 +1,29 @@
+# 研究室の Web サーバー web01 の情報（2026年10月20日 10:00 に取得）
+
+$ lsb_release -a
+No LSB modules are available.
+Distributor ID:	Ubuntu
+Description:	Ubuntu 24.04.4 LTS
+Release:	24.04
+Codename:	noble
+
+$ uname -r
+6.8.0-110-generic
+
+$ uptime
+ 10:00:00 up 183 days, 17:42,  1 user,  load average: 0.08, 0.05, 0.01
+
+$ grep ' upgrade ' /var/log/dpkg.log | tail -n 1
+2026-09-01 09:12:44 upgrade openssh-server:amd64 1:9.6p1-3ubuntu13.17 1:9.6p1-3ubuntu13.18
+
+$ dpkg -l | grep -E 'libc6|libc-bin|libssl|openssl|openssh|nginx|linux-image'
+ii  libc-bin                        2.39-0ubuntu8.8         amd64   GNU C Library: Binaries
+ii  libc6:amd64                     2.39-0ubuntu8.8         amd64   GNU C Library: Shared libraries
+ii  libssl3t64:amd64                3.0.13-0ubuntu3.15      amd64   Secure Sockets Layer toolkit - shared libraries
+ii  linux-image-6.8.0-110-generic   6.8.0-110.110           amd64   Signed kernel image generic
+ii  linux-image-6.8.0-138-generic   6.8.0-138.138           amd64   Signed kernel image generic
+ii  nginx                           1.24.0-2ubuntu7.17      amd64   small, powerful, scalable web/proxy server
+ii  nginx-common                    1.24.0-2ubuntu7.17      all     small, powerful, scalable web/proxy server - common files
+ii  openssh-client                  1:9.6p1-3ubuntu13.18    amd64   secure shell (SSH) client, for secure access to remote machines
+ii  openssh-server                  1:9.6p1-3ubuntu13.18    amd64   secure shell (SSH) server, for secure access from remote machines
+ii  openssl                         3.0.13-0ubuntu3.15      amd64   Secure Sockets Layer toolkit - cryptographic utility

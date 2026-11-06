@@ -1,0 +1,10 @@
+{
+  "private": true,
+  "scripts": {
+    "serve": "honkit serve",
+    "build": "honkit build"
+  },
+  "devDependencies": {
+    "honkit": "^6.2.2"
+  }
+}

@@ -1,0 +1,13 @@
+[project]
+name = "lab-image-api"
+version = "0.1.0"
+description = "研究室の画像変換 API"
+requires-python = ">=3.12"
+dependencies = [
+    "fastapi>=0.115",
+    "uvicorn>=0.30",
+    "python-multipart>=0.0.18",
+    "pillow>=11.0",
+    "pyjwt>=2.8",
+    "requests>=2.32",
+]
