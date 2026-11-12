@@ -28,12 +28,12 @@ CVSS の本体は数値ではなく、評価項目とその値を並べた**ベ�
 
 ```
 CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:C/C:H/I:H/A:H   → 10.0（Critical）
-│        │    │    │    │    │   └──────────── 機密性・完全性・可用性への影響
-│        │    │    │    │    └──────────────── スコープ
-│        │    │    │    └───────────────────── ユーザーの操作が必要か
-│        │    │    └────────────────────────── 必要な権限
-│        │    └─────────────────────────────── 攻撃の難しさ
-│        └──────────────────────────────────── 攻撃経路（N = ネットワーク経由）
+│        │    │    │    │    │   └──────────── C / I / A：機密性・完全性・可用性への影響（Confidentiality / Integrity / Availability）
+│        │    │    │    │    └──────────────── S：スコープ（Scope）
+│        │    │    │    └───────────────────── UI：ユーザーの操作が必要か（User Interaction）
+│        │    │    └────────────────────────── PR：必要な権限（Privileges Required）
+│        │    └─────────────────────────────── AC：攻撃の難しさ（Attack Complexity）
+│        └──────────────────────────────────── AV：攻撃経路（Attack Vector。N = Network：ネットワーク経由）
 └───────────────────────────────────────────── バージョン
 ```
 
@@ -56,11 +56,41 @@ CVE List のレコード（CNA や ADP が付けたもの）に含まれる CVSS
 
 v3.1 は v3.0（2015年）の改訂版です。評価項目は次の 3 つのグループに分かれています。
 
-| グループ | 誰が評価するか | 評価項目 |
+| グループ | 誰が評価するか | 内容 |
 |---|---|---|
-| **基本評価基準（Base）** | ベンダー・CNA | 攻撃経路（AV）、攻撃条件の複雑さ（AC）、必要な特権レベル（PR）、ユーザー関与レベル（UI）、スコープ（S）、機密性・完全性・可用性への影響（C / I / A） |
-| **現状評価基準（Temporal）** | ベンダー・CNA | 攻撃される可能性（E）、利用可能な対策のレベル（RL）、脆弱性情報の信頼性（RC） |
-| **環境評価基準（Environmental）** | 利用者 | 機密性・完全性・可用性の要求度（CR / IR / AR）、各基本評価基準の修正値 |
+| **基本評価基準（Base）** | ベンダー・CNA | 脆弱性そのものの性質 |
+| **現状評価基準（Temporal）** | ベンダー・CNA | 攻撃コードや対策の状況など、時間とともに変わる性質 |
+| **環境評価基準（Environmental）** | 利用者 | 利用者の環境での重要度 |
+
+各グループの評価項目は次のとおりです。
+
+**基本評価基準（Base Metrics）**
+
+| 略称 | 英語名 | 日本語名 | 値 |
+|---|---|---|---|
+| AV | Attack Vector | 攻撃経路 | N（Network）／ A（Adjacent）／ L（Local）／ P（Physical） |
+| AC | Attack Complexity | 攻撃条件の複雑さ | L（Low）／ H（High） |
+| PR | Privileges Required | 必要な特権レベル | N（None）／ L（Low）／ H（High） |
+| UI | User Interaction | ユーザー関与レベル | N（None）／ R（Required） |
+| S | Scope | スコープ | U（Unchanged）／ C（Changed） |
+| C | Confidentiality Impact | 機密性への影響 | H（High）／ L（Low）／ N（None） |
+| I | Integrity Impact | 完全性への影響 | H（High）／ L（Low）／ N（None） |
+| A | Availability Impact | 可用性への影響 | H（High）／ L（Low）／ N（None） |
+
+**現状評価基準（Temporal Metrics）**
+
+| 略称 | 英語名 | 日本語名 | 値 |
+|---|---|---|---|
+| E | Exploit Code Maturity | 攻撃される可能性 | X（Not Defined）／ H（High）／ F（Functional）／ P（Proof-of-Concept）／ U（Unproven） |
+| RL | Remediation Level | 利用可能な対策のレベル | X（Not Defined）／ U（Unavailable）／ W（Workaround）／ T（Temporary Fix）／ O（Official Fix） |
+| RC | Report Confidence | 脆弱性情報の信頼性 | X（Not Defined）／ C（Confirmed）／ R（Reasonable）／ U（Unknown） |
+
+**環境評価基準（Environmental Metrics）**
+
+| 略称 | 英語名 | 日本語名 | 値 |
+|---|---|---|---|
+| CR / IR / AR | Confidentiality / Integrity / Availability Requirement | 機密性・完全性・可用性の要求度 | X（Not Defined）／ H（High）／ M（Medium）／ L（Low） |
+| MAV、MAC など | Modified Base Metrics | 各基本評価基準の修正値 | 基本評価基準と同じ（先頭に M が付く） |
 
 特徴的なのが**スコープ（S）**です。脆弱性のあるコンポーネントの外（たとえば仮想マシンからホスト OS、Web アプリから閲覧者のブラウザ）にまで影響が及ぶ場合は「変更あり（C）」となり、原則スコアが上がります。
 
@@ -83,13 +113,45 @@ v3.1 は「新しい評価項目は追加せず、仕様を明確にする」こ
 ## 2.4 CVSS v4.0（2023年11月公開）
 
 v4.0 は v3 系からの大きな改訂で、評価項目の見直しと計算方法の刷新が行われました。
+評価項目は、基本・脅威・環境・補足の 4 つのグループに分かれています。
 
-| グループ | 評価項目 |
-|---|---|
-| **基本評価基準（Base）** | 攻撃経路（AV）、攻撃の複雑さ（AC）、**攻撃要件（AT）**、必要な特権（PR）、ユーザーの関与（UI）、**脆弱なシステム**への影響（VC / VI / VA）、**後続システム**への影響（SC / SI / SA） |
-| **脅威評価基準（Threat）** | 攻撃の成熟度（E）のみ |
-| **環境評価基準（Environmental）** | 要求度（CR / IR / AR）、各基本評価基準の修正値 |
-| **補足評価基準（Supplemental）** | 安全性（S）、自動化可能性（AU）、回復性（R）、価値密度（V）、対応に必要な労力（RE）、提供者の緊急度（U） |
+**基本評価基準（Base Metrics）**
+
+| 略称 | 英語名 | 日本語名 | 値 |
+|---|---|---|---|
+| AV | Attack Vector | 攻撃経路 | N（Network）／ A（Adjacent）／ L（Local）／ P（Physical） |
+| AC | Attack Complexity | 攻撃の複雑さ | L（Low）／ H（High） |
+| **AT** | **Attack Requirements** | **攻撃要件** | N（None）／ P（Present） |
+| PR | Privileges Required | 必要な特権 | N（None）／ L（Low）／ H（High） |
+| UI | User Interaction | ユーザーの関与 | N（None）／ **P（Passive）／ A（Active）** |
+| **VC / VI / VA** | **Vulnerable System** Confidentiality / Integrity / Availability | **脆弱なシステム**の機密性・完全性・可用性への影響 | H（High）／ L（Low）／ N（None） |
+| **SC / SI / SA** | **Subsequent System** Confidentiality / Integrity / Availability | **後続システム**の機密性・完全性・可用性への影響 | H（High）／ L（Low）／ N（None） |
+
+**脅威評価基準（Threat Metrics）**
+
+| 略称 | 英語名 | 日本語名 | 値 |
+|---|---|---|---|
+| E | Exploit Maturity | 攻撃の成熟度 | X（Not Defined）／ A（Attacked）／ P（POC）／ U（Unreported） |
+
+**環境評価基準（Environmental Metrics）**
+
+| 略称 | 英語名 | 日本語名 | 値 |
+|---|---|---|---|
+| CR / IR / AR | Confidentiality / Integrity / Availability Requirements | 機密性・完全性・可用性の要求度 | X（Not Defined）／ H（High）／ M（Medium）／ L（Low） |
+| MAV、MAC など | Modified Base Metrics | 各基本評価基準の修正値 | 基本評価基準と同じ（先頭に M が付く）。MSI / MSA には S（Safety）も指定できる |
+
+**補足評価基準（Supplemental Metrics）**：スコアには影響しない
+
+| 略称 | 英語名 | 日本語名 | 値 |
+|---|---|---|---|
+| S | Safety | 安全性 | X（Not Defined）／ N（Negligible）／ P（Present） |
+| AU | Automatable | 自動化可能性 | X（Not Defined）／ N（No）／ Y（Yes） |
+| R | Recovery | 回復性 | X（Not Defined）／ A（Automatic）／ U（User）／ I（Irrecoverable） |
+| V | Value Density | 価値密度 | X（Not Defined）／ D（Diffuse）／ C（Concentrated） |
+| RE | Vulnerability Response Effort | 対応に必要な労力 | X（Not Defined）／ L（Low）／ M（Moderate）／ H（High） |
+| U | Provider Urgency | 提供者の緊急度 | X（Not Defined）／ Clear ／ Green ／ Amber ／ Red |
+
+太字は v3.1 から新しく加わった、または大きく変わった項目です。
 
 **v3.1 からの主な変更点**
 
